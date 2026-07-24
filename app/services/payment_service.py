@@ -68,6 +68,9 @@ class PaymentService:
         # ==============================
         # 1. Lấy package
         # ==============================
+        
+        print("package_name =", repr(package_name))
+        print("PACKAGES =", PACKAGES)
 
         package = self.get_package(
             package_name
