@@ -57,7 +57,7 @@ async def payos_webhook(
         )
 
 
-    logger.info()
+    logger.info(f"PayOS webhook payload: {payload}")
     logger.info("=" * 60)
     logger.info("PAYOS WEBHOOK RECEIVED")
     logger.info("=" * 60)
