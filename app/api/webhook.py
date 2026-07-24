@@ -57,7 +57,6 @@ async def payos_webhook(
         )
 
 
-    logger.info(f"PayOS webhook payload: {payload}")
     logger.info("=" * 60)
     logger.info("PAYOS WEBHOOK RECEIVED")
     logger.info("=" * 60)
@@ -80,6 +79,7 @@ async def payos_webhook(
     try:
 
         payload = await request.json()
+        logger.info(f"PayOS webhook payload: {payload}")
 
     except Exception as e:
 
@@ -123,53 +123,39 @@ async def payos_webhook(
 
     except Exception as e:
 
-        logger.info()
         logger.info("=" * 60)
         logger.info("PAYOS WEBHOOK VERIFY FAILED")
         logger.info("=" * 60)
 
         logger.info(
-            "Error:"
+            f"Error: {str(e)}"
         )
 
-        logger.info(
-            str(e)
-        )
+        return {
+            "success": True,
+            "message": "Webhook received",
+        }
 
 
-        raise HTTPException(
-            status_code=400,
-            detail="Invalid PayOS webhook signature",
-        )
-
-
-    logger.info()
     logger.info("=" * 60)
     logger.info("PAYOS WEBHOOK VERIFIED")
     logger.info("=" * 60)
 
 
     logger.info(
-        "Order Code:",
-        webhook_data.order_code,
+    f"Order Code: {webhook_data.order_code}"
     )
 
-
     logger.info(
-        "Amount:",
-        webhook_data.amount,
+        f"Amount: {webhook_data.amount}"
     )
 
-
     logger.info(
-        "Code:",
-        webhook_data.code,
+        f"Code: {webhook_data.code}"
     )
 
-
     logger.info(
-        "Description:",
-        webhook_data.desc,
+        f"Description: {webhook_data.desc}"
     )
 
 
@@ -269,7 +255,6 @@ async def payos_webhook(
         # 7. Payment đã xử lý hoặc xử lý thành công
         # =================================================
 
-        logger.info()
         logger.info("=" * 60)
         logger.info("PAYMENT PROCESSED SUCCESSFULLY")
         logger.info("=" * 60)
@@ -319,22 +304,11 @@ async def payos_webhook(
 
     except Exception as e:
 
-        logger.info(
-            "========== PAYMENT PROCESSING FAILED =========="
+        logger.exception(
+            "PAYMENT PROCESSING FAILED"
         )
 
-
-        logger.info(
-            type(e).__name__
-        )
-
-
-        logger.info(
-            str(e)
-        )
-
-
-        raise HTTPException(
-            status_code=500,
-            detail="Failed to process payment",
-        )
+        return {
+            "success": True,
+            "message": "Webhook received",
+        }
