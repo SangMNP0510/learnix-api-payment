@@ -6,52 +6,27 @@ class FirebaseAuthService:
 
     @staticmethod
     def verify_token(
-        authorization: str,
+        id_token: str,
     ):
 
-        if not authorization:
-
-            raise HTTPException(
-                status_code=401,
-                detail="Authorization header is required",
-            )
-
-
-        if not authorization.startswith(
-            "Bearer "
-        ):
-
-            raise HTTPException(
-                status_code=401,
-                detail="Invalid authorization format",
-            )
-
-
-        token = authorization.split(
-            "Bearer ",
-            1,
-        )[1].strip()
-
-
-        if not token:
+        if not id_token:
 
             raise HTTPException(
                 status_code=401,
                 detail="Firebase token is empty",
             )
 
-
         try:
 
-            decoded_token = (
-                auth.verify_id_token(
-                    token
-                )
+            decoded_token = auth.verify_id_token(
+                id_token
             )
 
             return decoded_token
 
-        except Exception:
+        except Exception as e:
+
+            print(e)
 
             raise HTTPException(
                 status_code=401,
