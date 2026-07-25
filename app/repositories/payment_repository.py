@@ -80,11 +80,13 @@ class PaymentRepository:
     def get_pending_payment(
         self,
         user_id: str,
+        package_name: str,
     ):
 
         query = (
             db.collection(self.COLLECTION)
             .where("user_id", "==", user_id)
+            .where("package_name", "==", package_name)
             .where("status", "==", PaymentStatus.PENDING.value)
             .limit(1)
             .stream()

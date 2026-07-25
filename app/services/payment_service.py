@@ -77,7 +77,10 @@ class PaymentService:
             package_name
         )
         
-        pending = self.repository.get_pending_payment(user_id)
+        pending = self.repository.get_pending_payment(
+            user_id=user_id,
+            package_name=package_name,
+        )
 
         if pending is not None:
 
