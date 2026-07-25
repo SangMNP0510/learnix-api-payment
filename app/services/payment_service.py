@@ -83,19 +83,26 @@ class PaymentService:
 
             return {
 
-                "checkout_url": pending["checkout_url"],
+                "checkout_url":
+                    pending["checkout_url"],
 
-                "qr_code": None,
+                "qr_code":
+                    pending["qr_code"],
 
-                "order_code": pending["order_code"],
+                "order_code":
+                    pending["order_code"],
 
-                "payment_link_id": pending["payment_link_id"],
+                "payment_link_id":
+                    pending["payment_link_id"],
 
-                "amount": pending["amount"],
+                "amount":
+                    pending["amount"],
 
-                "package_name": pending["package_name"],
+                "package_name":
+                    pending["package_name"],
 
-                "expired_at": pending["expired_at"],
+                "expired_at":
+                    pending["expired_at"],
             }
 
 
@@ -135,9 +142,12 @@ class PaymentService:
 
             payment_link_id=None,
 
+            qr_code=None,
+
             created_at=now,
 
             updated_at=now,
+
             expired_at=expired_at,
         )
 
@@ -207,16 +217,11 @@ class PaymentService:
                 order_code,
 
                 {
-                    "status":
-                        PaymentStatus.FAILED.value,
+                    "status": PaymentStatus.FAILED.value,
 
-                    "updated_at":
-                        datetime.now(
-                            timezone.utc
-                        ),
+                    "updated_at": datetime.now(timezone.utc),
 
-                    "error_message":
-                        str(e),
+                    "error_message": str(e),
                 },
             )
 
@@ -233,19 +238,16 @@ class PaymentService:
 
             {
                 "checkout_url":
-                    result[
-                        "checkout_url"
-                    ],
+                    result["checkout_url"],
 
                 "payment_link_id":
-                    result[
-                        "payment_link_id"
-                    ],
+                    result["payment_link_id"],
+
+                "qr_code":
+                    result["qr_code"],
 
                 "updated_at":
-                    datetime.now(
-                        timezone.utc
-                    ),
+                    datetime.now(timezone.utc),
             },
         )
 

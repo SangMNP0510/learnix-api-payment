@@ -41,6 +41,8 @@ class PaymentOrder(BaseModel):
     checkout_url: Optional[str] = None
 
     payment_link_id: Optional[str] = None
+    
+    qr_code: Optional[str] = None
 
     created_at: datetime
 
