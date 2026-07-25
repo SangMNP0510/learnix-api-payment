@@ -2,6 +2,9 @@ from app.firebase.firebase import db
 
 from app.models.payment import PaymentOrder
 
+from datetime import datetime, timezone
+from app.models.payment_status import PaymentStatus
+
 
 class PaymentRepository:
 
@@ -73,3 +76,38 @@ class PaymentRepository:
         doc.update(
             data
         )
+        
+    def get_pending_payment(
+        self,
+        user_id: str,
+    ):
+
+        query = (
+            db.collection(self.COLLECTION)
+            .where("user_id", "==", user_id)
+            .where("status", "==", PaymentStatus.PENDING.value)
+            .limit(1)
+            .stream()
+        )
+
+        for doc in query:
+
+            payment = doc.to_dict()
+
+            if payment["expired_at"] <= datetime.now(timezone.utc):
+
+                self.update(
+
+                    payment["order_code"],
+
+                    {
+                        "status": PaymentStatus.EXPIRED.value,
+                        "updated_at": datetime.now(timezone.utc),
+                    },
+                )
+
+                return None
+
+            return payment
+
+        return None

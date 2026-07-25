@@ -76,6 +76,27 @@ class PaymentService:
         package = self.get_package(
             package_name
         )
+        
+        pending = self.repository.get_pending_payment(user_id)
+
+        if pending is not None:
+
+            return {
+
+                "checkout_url": pending["checkout_url"],
+
+                "qr_code": None,
+
+                "order_code": pending["order_code"],
+
+                "payment_link_id": pending["payment_link_id"],
+
+                "amount": pending["amount"],
+
+                "package_name": pending["package_name"],
+
+                "expired_at": pending["expired_at"],
+            }
 
 
         # ==============================
@@ -260,6 +281,8 @@ class PaymentService:
 
             "package_name":
                 package_name,
+                
+            "expired_at": expired_at,
         }
         
     def get_order(

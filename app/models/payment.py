@@ -22,6 +22,8 @@ class CreatePaymentResponse(BaseModel):
     amount: int
 
     package_name: str
+    
+    expired_at: datetime
 
 
 class PaymentOrder(BaseModel):
