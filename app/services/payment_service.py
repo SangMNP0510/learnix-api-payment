@@ -18,6 +18,7 @@ from app.models.payment_status import PaymentStatus
 
 from app.repositories.payment_repository import PaymentRepository
 from app.services.payos_service import PayOSService
+from datetime import timedelta
 
 
 class PaymentService:
@@ -89,6 +90,8 @@ class PaymentService:
         now = datetime.now(
             timezone.utc
         )
+        
+        expired_at = now + timedelta(minutes=15)
 
 
         # ==============================
@@ -114,6 +117,7 @@ class PaymentService:
             created_at=now,
 
             updated_at=now,
+            expired_at=expired_at,
         )
 
 
@@ -257,3 +261,39 @@ class PaymentService:
             "package_name":
                 package_name,
         }
+        
+    def get_order(
+        self,
+        order_code: int,
+    ):
+
+        payment = self.repository.get(order_code)
+
+        if payment is None:
+            return None
+
+        now = datetime.now(timezone.utc)
+
+        if (
+            payment["status"] == PaymentStatus.PENDING.value
+            and now > payment["expired_at"]
+        ):
+
+            self.repository.update(
+
+                order_code,
+
+                {
+
+                    "status":
+                        PaymentStatus.EXPIRED.value,
+
+                    "updated_at":
+                        now,
+
+                },
+            )
+
+            payment["status"] = PaymentStatus.EXPIRED.value
+
+        return payment

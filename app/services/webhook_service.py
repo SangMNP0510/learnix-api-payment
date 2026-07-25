@@ -109,6 +109,42 @@ class WebhookService:
         now = datetime.now(
             timezone.utc
         )
+        
+        expired_at = payment.get(
+            "expired_at"
+        )
+
+        if (
+            expired_at
+            and now > expired_at
+        ):
+
+            self.payment_repository.update(
+
+                order_code,
+
+                {
+
+                    "status":
+                        PaymentStatus.EXPIRED.value,
+
+                    "updated_at":
+                        now,
+
+                },
+            )
+
+            return {
+
+                "success": False,
+
+                "message":
+                    "Payment expired",
+
+                "order_code":
+                    order_code,
+
+            }
 
 
         # =====================================

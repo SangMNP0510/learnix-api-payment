@@ -43,5 +43,7 @@ class PaymentOrder(BaseModel):
     created_at: datetime
 
     updated_at: datetime
+    
+    expired_at: datetime
 
     paid_at: Optional[datetime] = None

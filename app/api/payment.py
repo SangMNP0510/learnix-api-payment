@@ -67,9 +67,9 @@ def create_payment(
 @router.get("/order/{order_code}")
 def get_order(order_code: int):
 
-    repository = PaymentRepository()
+    service = PaymentService()
 
-    payment = repository.get(order_code)
+    payment = service.get_order(order_code)
 
     if payment is None:
         raise HTTPException(

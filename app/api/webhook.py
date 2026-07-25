@@ -5,6 +5,9 @@ from app.services.webhook_service import WebhookService
 from app.utils.logger import (
     logger,
 )
+from app.repositories.payment_repository import PaymentRepository
+from app.models.payment_status import PaymentStatus
+from datetime import datetime, timezone
 
 
 router = APIRouter(
@@ -167,6 +170,14 @@ async def payos_webhook(
 
         logger.info(
             "========== PAYMENT NOT SUCCESS =========="
+        )
+        
+        PaymentRepository().update(
+            webhook_data.order_code,
+            {
+                "status": PaymentStatus.FAILED.value,
+                "updated_at": datetime.now(timezone.utc),
+            },
         )
 
 

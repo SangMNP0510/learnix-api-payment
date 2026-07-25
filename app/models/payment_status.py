@@ -10,3 +10,5 @@ class PaymentStatus(str, Enum):
     FAILED = "FAILED"
 
     CANCELLED = "CANCELLED"
+    
+    EXPIRED = "EXPIRED" 
