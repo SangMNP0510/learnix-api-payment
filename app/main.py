@@ -10,7 +10,7 @@ from fastapi.middleware.cors import (
 
 
 app = FastAPI(
-    title="Learnix Payment API"
+    title="ReStudy Payment API"
 )
 
 
@@ -55,5 +55,5 @@ def root():
 
     return {
         "message":
-            "Learnix Payment API"
+            "ReStudy Payment API"
     }

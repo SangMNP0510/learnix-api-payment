@@ -13,6 +13,11 @@ from app.repositories.user_repository import (
 from app.utils.logger import (
     logger,
 )
+import requests
+
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 
 class WebhookService:
@@ -278,6 +283,21 @@ class WebhookService:
                     expire_date,
             },
         )
+        
+        try:
+            requests.post(
+                "https://ai-app-notification.onrender.com/notification/internal/payment-success",
+                json={
+                    "user_id": payment["user_id"],
+                    "package": package_name,
+                },
+                headers={
+                    "X-Internal-Key": os.getenv("INTERNAL_API_KEY"),
+                },
+                timeout=5,
+            )
+        except Exception as e:
+            logger.exception(f"Cannot send notification: {e}")
 
 
         # =====================================
