@@ -286,7 +286,7 @@ class WebhookService:
         
         try:
             requests.post(
-                "https://ai-app-notification.onrender.com/notification/internal/payment-success",
+                "https://ristudy-notification.onrender.com/notification/internal/payment-success",
                 json={
                     "user_id": payment["user_id"],
                     "package": package_name,
