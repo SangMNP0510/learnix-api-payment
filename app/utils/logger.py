@@ -5,5 +5,5 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(
-    "ReStudy"
+    "RiStudy"
 )

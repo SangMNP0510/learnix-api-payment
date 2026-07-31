@@ -10,7 +10,7 @@ from fastapi.middleware.cors import (
 
 
 app = FastAPI(
-    title="ReStudy Payment API"
+    title="RiStudy Payment API"
 )
 
 
@@ -55,5 +55,5 @@ def root():
 
     return {
         "message":
-            "ReStudy Payment API"
+            "RiStudy Payment API"
     }
